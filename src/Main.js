@@ -1,30 +1,13 @@
 import React, { Component } from 'react'
 import { AppRegistry, StyleSheet, View } from 'react-native'
-import PerpetualAnimation from './PerpetualAnimation'
+import { StackNavigator } from 'react-navigation'
 
-class Animating extends Component {
-  render() {
-    return (
-      <View style={{
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center'
-      }}>
-        <View style={styles.animationContainer}>
-          <PerpetualAnimation />
-        </View>
-      </View>
-    )
-  }
-}
+import MainScreen from './screens/MainScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
-const styles = StyleSheet.create({
-  animationContainer: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  }
+const AppStackNavigator = StackNavigator({
+  Main: { screen: MainScreen },
+  Profile: { screen: ProfileScreen },
 })
 
-AppRegistry.registerComponent('RNDocs', () => Animating)
+AppRegistry.registerComponent('RNDocs', () => AppStackNavigator)
