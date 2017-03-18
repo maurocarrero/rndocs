@@ -1,43 +1,30 @@
 import React, { Component } from 'react'
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native'
-import Button from './Button'
+import { AppRegistry, StyleSheet, View } from 'react-native'
+import AnimatedBounce from './AnimatedBounce'
 
-export default class HandlingTouches extends Component {
+class Animating extends Component {
   render() {
     return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => console.log('All view was touched')}
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>
-            Handling touches
-          </Text>
-          <Button />
+      <View style={{
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center'
+      }}>
+        <View style={styles.animationContainer}>
+          <AnimatedBounce />
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  animationContainer: {
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 })
 
-AppRegistry.registerComponent('RNDocs', () => HandlingTouches)
+AppRegistry.registerComponent('RNDocs', () => Animating)
