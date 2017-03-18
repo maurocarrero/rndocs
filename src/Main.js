@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { AppRegistry, StyleSheet, View } from 'react-native'
 import AnimatedBounce from './AnimatedBounce'
+import AnimatedRotation from './AnimatedRotation'
 
 class Animating extends Component {
   render() {
@@ -12,6 +13,9 @@ class Animating extends Component {
       }}>
         <View style={styles.animationContainer}>
           <AnimatedBounce />
+        </View>
+        <View style={styles.animationContainer}>
+          <AnimatedRotation />
         </View>
       </View>
     )
