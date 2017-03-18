@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { AppRegistry, StyleSheet, View } from 'react-native'
-import AnimatedSequence from './AnimatedSequence'
+import PerpetualAnimation from './PerpetualAnimation'
 
 class Animating extends Component {
   render() {
@@ -11,7 +11,7 @@ class Animating extends Component {
         justifyContent: 'center'
       }}>
         <View style={styles.animationContainer}>
-          <AnimatedSequence />
+          <PerpetualAnimation />
         </View>
       </View>
     )
