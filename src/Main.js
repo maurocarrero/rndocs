@@ -3,6 +3,7 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 import Button from './Button'
@@ -10,12 +11,17 @@ import Button from './Button'
 export default class HandlingTouches extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Handling touches
-        </Text>
-        <Button />
-      </View>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => console.log('All view was touched')}
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>
+            Handling touches
+          </Text>
+          <Button />
+        </View>
+      </TouchableOpacity>
     )
   }
 }

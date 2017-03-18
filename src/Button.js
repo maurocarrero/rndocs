@@ -1,10 +1,22 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, TouchableHighlight} from 'react-native'
+import React, { Component } from 'react'
+import { StyleSheet, Text, TouchableHighlight } from 'react-native'
 
 export default class Button extends Component {
 
   _onPressButton() {
-    console.log('You tapped the button')
+    console.log('onPress')
+  }
+
+  _onLongPressButton() {
+    console.log('onLongPress')
+  }
+
+  _onHideUnderlay() {
+    console.log('onHideUnderlay')
+  }
+
+  _onShowUnderlay() {
+    console.log('onShowUnderlay')
   }
 
   render() {
@@ -12,7 +24,12 @@ export default class Button extends Component {
     return (
       <TouchableHighlight
         onPress={this._onPressButton}
-        style={[button, centering]}
+        onLongPress={this._onLongPressButton}
+        onHideUnderlay={this._onHideUnderlay}
+        onShowUnderlay={this._onShowUnderlay}
+        underlayColor={'gold'}
+        activeOpacity={.3}
+        style={[ button, centering ]}
       >
         <Text>The button</Text>
       </TouchableHighlight>
