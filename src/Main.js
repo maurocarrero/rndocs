@@ -1,15 +1,53 @@
 import React, { Component, PropTypes } from 'react'
 import { AppRegistry, NavigatorIOS, StyleSheet, Text, View } from 'react-native'
 import PerpetualAnimation from './PerpetualAnimation'
-import Button from './components/Button'
 
 export default class NavigatorIOSApp extends Component {
+
+  constructor() {
+    super()
+    this._goToPetecus = this._goToPetecus.bind(this)
+    this._goToSomethingElse = this._goToSomethingElse.bind(this)
+  }
+
+  _goToPetecus() {
+    this._nav.push({
+      component: MyView,
+      title: 'Petecus',
+      rightButtonTitle: 'Go to Something else',
+      onRightButtonPress: this._goToSomethingElse,
+      passProps: { title: 'Petecus' },
+      barTintColor: 'chartreuse',
+      titleTextColor: 'azure',
+      tintColor: 'coral'
+    });
+  }
+
+  _goToSomethingElse() {
+    this._nav.push({
+      component: MyView,
+      title: 'Something else',
+      passProps: { title: 'Something else' },
+      barTintColor: 'chartreuse',
+      titleTextColor: 'cadetblue',
+      tintColor: 'crimson'
+    });
+  }
+
   render() {
     return (
       <NavigatorIOS
+        ref={node => this._nav = node}
         initialRoute={{
-          component: MyFirstScene,
+          component: MyView,
           title: 'My Initial Scene',
+          rightButtonTitle: 'Go to Petecus',
+          onRightButtonPress: this._goToPetecus,
+          passProps: { title: 'My Initial Scene' },
+          barTintColor: 'gold',
+          titleTextColor: 'chocolate',
+          tintColor: 'cornflowerblue',
+
         }}
         style={{ flex: 1 }}
       />
@@ -17,58 +55,16 @@ export default class NavigatorIOSApp extends Component {
   }
 }
 
-class MyFirstScene extends Component {
+class MyView extends Component {
   static propTypes = {
-    navigator: PropTypes.object.isRequired,
-  }
-
-  constructor(props, context) {
-    super(props, context);
-    this._onForward = this._onForward.bind(this);
-  }
-
-  _onForward() {
-    this.props.navigator.push({
-      title: 'Scene',
-      component: MySecondScene
-    });
+    navigator: PropTypes.object.isRequired
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Current Scene: { this.props.route.title }</Text>
+        <Text>Current Scene: { this.props.title }</Text>
         <PerpetualAnimation />
-        <Button
-          title="Tap me to load the next scene"
-          onPress={this._onForward}
-        />
-      </View>
-    )
-  }
-}
-
-class MySecondScene extends Component {
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-  }
-
-  constructor(props, context) {
-    super(props, context);
-    this._onForward = this._onForward.bind(this);
-  }
-
-  _onForward() {
-    this.props.navigator.push({
-      title: 'Second Scene',
-      component: MyFirstScene
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Current Scene: { this.props.route.title }</Text>
       </View>
     )
   }
