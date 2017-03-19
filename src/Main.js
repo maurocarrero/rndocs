@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { AppRegistry, Navigator, StyleSheet, Text, View } from 'react-native'
 import Button from './components/Button'
-import PerpetualAnimation from './PerpetualAnimation'
 
 class Route extends Component {
   render() {
     const { route } = this.props
     return (
-      <View>
+      <View style={[ styles.container, { backgroundColor: route.color } ]}>
         <View style={styles.row}>
           <Text style={styles.title}>Title: </Text>
-          <Text style={[{ color: route.fontColor }, styles.title]}>{route.title}</Text>
+          <Text style={[ { color: route.fontColor }, styles.title ]}>{route.title}</Text>
         </View>
 
         <View style={styles.row}>
@@ -33,51 +32,54 @@ class Route extends Component {
 }
 
 export default class NavAllDay extends Component {
+
+  static _routes = [
+    { title: 'First Scene', index: 0, color: 'peachpuff' },
+    { title: 'Second Scene', index: 1, color: 'royalblue', fontColor: 'powderblue' },
+    { title: 'Third Scene', index: 2, color: 'palegreen', fontColor: 'saddlebrown' },
+    { title: 'Fourth Scene', index: 3, color: 'oldlace', fontColor: 'rebeccapurple' }
+  ]
+
+  _leftButton(route, navigator, index, navState) {
+    return route.index > 0 &&
+      <Button title="Back"
+              onPress={() => navigator.pop()}
+      />
+  }
+
+  _rightButton(route, navigator, index, navState) {
+    return route.index < 3 &&
+      <Button title="Next"
+              onPress={() =>
+                navigator.push(NavAllDay._routes[ index + 1 ])}
+      />
+  }
+
+  _title(route, navigator, index, navState) {
+    return (
+      <View style={{ paddingTop: 10 }}>
+        <Text style={{ fontWeight: '700', textAlign: 'center' }}>Built-In Navigator Bar</Text>
+        <Text style={{ fontWeight: '400', textAlign: 'center' }}>{route.title}</Text>
+      </View>
+    )
+  }
+
   render() {
-    const routes = [
-      { title: 'First Scene', index: 0, color: 'peachpuff' },
-      { title: 'Second Scene', index: 1, color: 'royalblue', fontColor: 'powderblue' },
-      { title: 'Third Scene', index: 2, color: 'palegreen', fontColor: 'saddlebrown' },
-      { title: 'Fourth Scene', index: 3, color: 'oldlace', fontColor: 'rebeccapurple' }
-    ]
+    const { _routes } = NavAllDay
     return (
       <Navigator
-        initialRoute={routes[ 0 ]}
-        initialRouteStack={routes}
-        renderScene={(route, navigator) => {
-          return (
-            <View style={[ styles.container, { backgroundColor: route.color } ]}>
-              <View style={{
-                flex: 1
-              }}>
-                {
-                  route.index === 0 ?
-                    <PerpetualAnimation />
-                    :
-                    <Route route={route}/>
-                }
-              </View>
-              <View style={[styles.row, { alignItems: 'stretch', justifyContent: 'space-between' }]}>
-                {
-                  route.index > 0 &&
-                  <Button
-                    title="Back"
-                    onPress={() => {
-                      navigator.pop()
-                    }}/>
-                }
-                {
-                  route.index < 3 &&
-                  <Button
-                    title="Next"
-                    onPress={() => {
-                      navigator.push(routes[ route.index + 1 ])
-                    }}/>
-                }
-              </View>
-            </View>
-          )
-        }}/>
+        initialRoute={_routes[ 0 ]}
+        initialRouteStack={_routes}
+        navigationBar={
+          <Navigator.NavigationBar
+            routeMapper={{
+              LeftButton: this._leftButton,
+              RightButton: this._rightButton,
+              Title: this._title
+            }}
+          />
+        }
+        renderScene={(route) => <Route route={route}/>}/>
     )
   }
 }
