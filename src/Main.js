@@ -8,23 +8,7 @@ class Route extends Component {
     return (
       <View style={[ styles.container, { backgroundColor: route.color } ]}>
         <View style={styles.row}>
-          <Text style={styles.title}>Title: </Text>
           <Text style={[ { color: route.fontColor }, styles.title ]}>{route.title}</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.rowTitle}>Index: </Text>
-          <Text style={{ color: route.fontColor }}>{route.index}</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.rowTitle}>Color: </Text>
-          <Text style={{ color: route.fontColor }}>{route.color}</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.rowTitle}>Font Color: </Text>
-          <Text style={{ color: route.fontColor }}>{route.fontColor}</Text>
         </View>
       </View>
     )
@@ -34,10 +18,41 @@ class Route extends Component {
 export default class NavAllDay extends Component {
 
   static _routes = [
-    { title: 'First Scene', index: 0, color: 'peachpuff' },
-    { title: 'Second Scene', index: 1, color: 'royalblue', fontColor: 'powderblue' },
-    { title: 'Third Scene', index: 2, color: 'palegreen', fontColor: 'saddlebrown' },
-    { title: 'Fourth Scene', index: 3, color: 'oldlace', fontColor: 'rebeccapurple' }
+    {
+      title: 'First screen', index: 0, color: 'peachpuff'
+    },
+    {
+      title: 'Vertical Up Swipe Jump', index: 1, color: 'royalblue', fontColor: 'powderblue',
+      sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump
+    },
+    {
+      title: 'Float From Right', index: 2, color: 'palegreen', fontColor: 'saddlebrown',
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight
+    },
+    {
+      title: 'Vertical Down Swipe Jump', index: 3, color: 'oldlace', fontColor: 'rebeccapurple',
+      sceneConfig: Navigator.SceneConfigs.VerticalDownSwipeJump
+    },
+    {
+      title: 'Float From Left', index: 4, color: 'royalblue', fontColor: 'powderblue',
+      sceneConfig: Navigator.SceneConfigs.FloatFromLeft
+    },
+    {
+      title: 'Push From Right', index: 5, color: 'royalblue', fontColor: 'powderblue',
+      sceneConfig: Navigator.SceneConfigs.PushFromRight
+    },
+    {
+      title: 'Float From Bottom', index: 6, color: 'royalblue', fontColor: 'powderblue',
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+    },
+    {
+      title: 'Push From Left', index: 7, fontColor: 'rebeccapurple', color: 'powderblue',
+      sceneConfig: Navigator.SceneConfigs.PushFromLeft
+    },
+    {
+      title: 'Swipe From Left', index: 8, fontColor: 'powderblue', color: 'saddlebrown',
+      sceneConfig: Navigator.SceneConfigs.SwipeFromLeft
+    }
   ]
 
   _leftButton(route, navigator, index, navState) {
@@ -48,7 +63,7 @@ export default class NavAllDay extends Component {
   }
 
   _rightButton(route, navigator, index, navState) {
-    return route.index < 3 &&
+    return route.index < NavAllDay._routes.length - 1 &&
       <Button title="Next"
               onPress={() =>
                 navigator.push(NavAllDay._routes[ index + 1 ])}
@@ -79,7 +94,9 @@ export default class NavAllDay extends Component {
             }}
           />
         }
-        renderScene={(route) => <Route route={route}/>}/>
+        renderScene={(route) => <Route route={route}/>}
+        configureScene={(route, routeStack) => route.sceneConfig}
+      />
     )
   }
 }
