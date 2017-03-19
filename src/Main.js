@@ -1,105 +1,79 @@
-import React, { Component } from 'react'
-import { AppRegistry, Navigator, StyleSheet, Text, View } from 'react-native'
+import React, { Component, PropTypes } from 'react'
+import { AppRegistry, NavigatorIOS, StyleSheet, Text, View } from 'react-native'
+import PerpetualAnimation from './PerpetualAnimation'
 import Button from './components/Button'
 
-class Route extends Component {
+export default class NavigatorIOSApp extends Component {
   render() {
-    const { route } = this.props
     return (
-      <View style={[ styles.container, { backgroundColor: route.color } ]}>
-        <View style={styles.row}>
-          <Text style={[ { color: route.fontColor }, styles.title ]}>{route.title}</Text>
-        </View>
+      <NavigatorIOS
+        initialRoute={{
+          component: MyFirstScene,
+          title: 'My Initial Scene',
+        }}
+        style={{ flex: 1 }}
+      />
+    )
+  }
+}
+
+class MyFirstScene extends Component {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    this._onForward = this._onForward.bind(this);
+  }
+
+  _onForward() {
+    this.props.navigator.push({
+      title: 'Scene',
+      component: MySecondScene
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Current Scene: { this.props.route.title }</Text>
+        <PerpetualAnimation />
+        <Button
+          title="Tap me to load the next scene"
+          onPress={this._onForward}
+        />
       </View>
     )
   }
 }
 
-export default class NavAllDay extends Component {
-
-  static _routes = [
-    {
-      title: 'First screen', index: 0, color: 'peachpuff'
-    },
-    {
-      title: 'Vertical Up Swipe Jump', index: 1, color: 'royalblue', fontColor: 'powderblue',
-      sceneConfig: Navigator.SceneConfigs.VerticalUpSwipeJump
-    },
-    {
-      title: 'Float From Right', index: 2, color: 'palegreen', fontColor: 'saddlebrown',
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight
-    },
-    {
-      title: 'Vertical Down Swipe Jump', index: 3, color: 'oldlace', fontColor: 'rebeccapurple',
-      sceneConfig: Navigator.SceneConfigs.VerticalDownSwipeJump
-    },
-    {
-      title: 'Float From Left', index: 4, color: 'royalblue', fontColor: 'powderblue',
-      sceneConfig: Navigator.SceneConfigs.FloatFromLeft
-    },
-    {
-      title: 'Push From Right', index: 5, color: 'royalblue', fontColor: 'powderblue',
-      sceneConfig: Navigator.SceneConfigs.PushFromRight
-    },
-    {
-      title: 'Float From Bottom', index: 6, color: 'royalblue', fontColor: 'powderblue',
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom
-    },
-    {
-      title: 'Push From Left', index: 7, fontColor: 'rebeccapurple', color: 'powderblue',
-      sceneConfig: Navigator.SceneConfigs.PushFromLeft
-    },
-    {
-      title: 'Swipe From Left', index: 8, fontColor: 'powderblue', color: 'saddlebrown',
-      sceneConfig: Navigator.SceneConfigs.SwipeFromLeft
-    }
-  ]
-
-  _leftButton(route, navigator, index, navState) {
-    return route.index > 0 &&
-      <Button title="Back"
-              onPress={() => navigator.pop()}
-      />
+class MySecondScene extends Component {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
   }
 
-  _rightButton(route, navigator, index, navState) {
-    return route.index < NavAllDay._routes.length - 1 &&
-      <Button title="Next"
-              onPress={() =>
-                navigator.push(NavAllDay._routes[ index + 1 ])}
-      />
+  constructor(props, context) {
+    super(props, context);
+    this._onForward = this._onForward.bind(this);
   }
 
-  _title(route, navigator, index, navState) {
-    return (
-      <View style={{ paddingTop: 10 }}>
-        <Text style={{ fontWeight: '700', textAlign: 'center' }}>Built-In Navigator Bar</Text>
-        <Text style={{ fontWeight: '400', textAlign: 'center' }}>{route.title}</Text>
-      </View>
-    )
+  _onForward() {
+    this.props.navigator.push({
+      title: 'Second Scene',
+      component: MyFirstScene
+    });
   }
 
   render() {
-    const { _routes } = NavAllDay
     return (
-      <Navigator
-        initialRoute={_routes[ 0 ]}
-        initialRouteStack={_routes}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={{
-              LeftButton: this._leftButton,
-              RightButton: this._rightButton,
-              Title: this._title
-            }}
-          />
-        }
-        renderScene={(route) => <Route route={route}/>}
-        configureScene={(route, routeStack) => route.sceneConfig}
-      />
+      <View style={styles.container}>
+        <Text>Current Scene: { this.props.route.title }</Text>
+      </View>
     )
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -122,4 +96,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('RNDocs', () => NavAllDay)
+AppRegistry.registerComponent('RNDocs', () => NavigatorIOSApp)
