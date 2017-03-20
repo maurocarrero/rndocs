@@ -7,7 +7,7 @@ export default class Button extends Component {
     return (
       <TouchableHighlight
         onPress={this.props.onPress}
-        underlayColor={'orangered'}
+        underlayColor={'#343434'}
         style={[button, centering]}
       >
         <Text style={styles.text}>{this.props.title}</Text>
@@ -18,6 +18,8 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   button: {
+    backgroundColor: '#434343',
+    borderRadius: 4,
     padding: 10,
     margin: 10
   },
@@ -26,6 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    color: '#434343'
+    color: '#ededed'
   }
 })

@@ -1,54 +1,38 @@
 import React, { Component, PropTypes } from 'react'
 import { AppRegistry, NavigatorIOS, StyleSheet, Text, View } from 'react-native'
+
 import PerpetualAnimation from './PerpetualAnimation'
+import Button from './components/Button'
+import colors from './assets/colors'
 
 export default class NavigatorIOSApp extends Component {
-
-  constructor() {
-    super()
-    this._goToPetecus = this._goToPetecus.bind(this)
-    this._goToSomethingElse = this._goToSomethingElse.bind(this)
+  static _getColor() {
+    return colors[ Math.floor(Math.random() * colors.length) ]
   }
 
-  _goToPetecus() {
-    this._nav.push({
-      component: MyView,
-      title: 'Petecus',
-      rightButtonTitle: 'Go to Something else',
-      onRightButtonPress: this._goToSomethingElse,
-      passProps: { title: 'Petecus' },
-      barTintColor: 'chartreuse',
-      titleTextColor: 'azure',
-      tintColor: 'coral'
-    });
-  }
+  static _index = 0
 
-  _goToSomethingElse() {
-    this._nav.push({
+  static _getScene = () => {
+    const barTintColor = NavigatorIOSApp._getColor()
+    const titleTextColor = NavigatorIOSApp._getColor()
+    const tintColor = NavigatorIOSApp._getColor()
+    return {
+      index: NavigatorIOSApp._index++,
       component: MyView,
-      title: 'Something else',
-      passProps: { title: 'Something else' },
-      barTintColor: 'chartreuse',
-      titleTextColor: 'cadetblue',
-      tintColor: 'crimson'
-    });
+      title: barTintColor,
+      passProps: {
+        title: barTintColor
+      },
+      barTintColor,
+      titleTextColor,
+      tintColor
+    }
   }
 
   render() {
     return (
       <NavigatorIOS
-        ref={node => this._nav = node}
-        initialRoute={{
-          component: MyView,
-          title: 'My Initial Scene',
-          rightButtonTitle: 'Go to Petecus',
-          onRightButtonPress: this._goToPetecus,
-          passProps: { title: 'My Initial Scene' },
-          barTintColor: 'gold',
-          titleTextColor: 'chocolate',
-          tintColor: 'cornflowerblue',
-
-        }}
+        initialRoute={NavigatorIOSApp._getScene()}
         style={{ flex: 1 }}
       />
     )
@@ -60,11 +44,38 @@ class MyView extends Component {
     navigator: PropTypes.object.isRequired
   }
 
+  constructor() {
+    super()
+    this._handleBackPress = this._handleBackPress.bind(this)
+    this._handleNextPress = this._handleNextPress.bind(this)
+  }
+
+  _handleBackPress() {
+    this.props.navigator.pop()
+  }
+
+  _handleNextPress() {
+    this.props.navigator.push(NavigatorIOSApp._getScene())
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Current Scene: { this.props.title }</Text>
+      <View style={[ styles.container, { backgroundColor: this.props.route.title } ]}>
+        <Text style={[ styles.title, { color: this.props.route.titleTextColor } ]}>{ this.props.title }</Text>
         <PerpetualAnimation />
+        <View style={styles.row}>
+          {
+            this.props.route.index > 0 &&
+            <Button
+              title="Back"
+              onPress={this._handleBackPress}
+            />
+          }
+          <Button
+            title="Next"
+            onPress={this._handleNextPress}
+          />
+        </View>
       </View>
     )
   }
@@ -81,10 +92,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     padding: 5
-  },
-  rowTitle: {
-    fontWeight: '800',
-    color: '#343434'
   },
   title: {
     fontFamily: 'Avenir-Black',
