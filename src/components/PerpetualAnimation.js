@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Animated, Easing } from 'react-native'
 
-const hakkeNoFuinShikiPNG = require('./assets/images/Naruto_Shiki_Fujin.png')
+const hakkeNoFuinShikiPNG = require('./../assets/images/Naruto_Shiki_Fujin.png')
 
 export default class PerpetualAnimation extends Component {
   constructor(props) {
