@@ -1,13 +1,25 @@
-import React, { Component, PropTypes } from 'react'
-import { AppRegistry, NavigatorIOS, StyleSheet, Text, View } from 'react-native'
-import { StackNavigator } from 'react-navigation'
+import React from 'react'
+import { AppRegistry } from 'react-native'
+import { StackNavigator, TabNavigator } from 'react-navigation'
 
-import HomeScreen from './screens/HomeScreen'
 import ChatScreen from './screens/ChatScreen'
+import InfoScreen from './screens/InfoScreen'
+import RecentChatsScreen from './screens/RecentChatsScreen'
+import AllContactsScreen from './screens/AllContactsScreen'
 
-const SimpleApp = StackNavigator({
-  Home: { screen: HomeScreen },
-  Chat: { screen: ChatScreen }
-});
+const MainScreenNavigator = TabNavigator({
+  Recent: { screen: RecentChatsScreen },
+  AllContacts: { screen: AllContactsScreen }
+})
 
-AppRegistry.registerComponent('RNDocs', () => SimpleApp)
+MainScreenNavigator.navigationOptions = {
+  title: 'My Chats'
+}
+
+const NestedNavigatorsApp = StackNavigator({
+  Home: { screen: MainScreenNavigator },
+  Chat: { screen: ChatScreen },
+  Info: { screen: InfoScreen }
+})
+
+AppRegistry.registerComponent('RNDocs', () => NestedNavigatorsApp)

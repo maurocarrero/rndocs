@@ -3,31 +3,27 @@ import {StyleSheet, Text, TouchableHighlight} from 'react-native'
 
 export default class Button extends Component {
   render() {
-    const { button, centering } = styles
+    const { onPress, style, title } = this.props
+    const { button, centering } = style || defaultStyles
     return (
       <TouchableHighlight
-        onPress={this.props.onPress}
-        underlayColor={'#343434'}
+        onPress={onPress}
+        underlayColor={'ghostwhite'}
         style={[button, centering]}
       >
-        <Text style={styles.text}>{this.props.title}</Text>
+        <Text>{title}</Text>
       </TouchableHighlight>
     )
   }
 }
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   button: {
-    backgroundColor: '#434343',
-    borderRadius: 4,
     padding: 10,
     margin: 10
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  text: {
-    color: '#ededed'
   }
 })

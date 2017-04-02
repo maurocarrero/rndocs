@@ -1,10 +1,25 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, View } from 'react-native'
 import styles from './styles'
+import Button from '../components/Button'
 
 export default class ChatScreen extends Component {
   static navigationOptions = {
-    title: ({ state }) => `Chat with ${state.params.user}`
+    title: ({ state }) => state.params.user,
+    header: ({ state, navigate }) => {
+      return {
+        right: (
+          <Button
+            title="Info"
+            onPress={() =>
+              navigate('Info', {
+                user: state.params.user,
+                mode: 'info'
+              })}
+          />
+        )
+      }
+    }
   }
 
   render() {
